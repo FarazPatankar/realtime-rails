@@ -11,9 +11,11 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      .connected-users { float:right; }
     </style>
   </head>
   <body>
+    <h1 class="connected-users"></h1>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
@@ -23,7 +25,6 @@
     <script>
       var socket = io();
       $('form').submit(function(){
-        // socket.emit('chat message', $('#m').val());
         $.ajax({
           type: 'GET',
           url: 'http://192.168.0.128:4001/',
@@ -32,9 +33,11 @@
         $('#m').val('');
         return false;
       });
-      debugger
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
+      });
+      socket.on('user-count', function(msg){
+        $('.connected-users').text(msg + ' user(s) connected');
       });
     </script>
   </body>
