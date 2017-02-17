@@ -24,6 +24,7 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
+      var stu = io('/student');
       $('form').submit(function(){
         $.ajax({
           type: 'GET',
@@ -33,7 +34,7 @@
         $('#m').val('');
         return false;
       });
-      socket.on('chat message', function(msg){
+      stu.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
       socket.on('user-count', function(msg){
